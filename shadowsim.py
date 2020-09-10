@@ -1,3 +1,6 @@
+import random
+import math
+
 class Spells:
     """Stats for direct damage spells"""
     def __init__(self, sp_weight, cast_time, cooldown, insanity_gen, insanity_cost):
@@ -57,6 +60,24 @@ class Timeline:
     vampiric_embrace_off_cd = 0
 
 
+def next_time_stop():
+    return min([timeline.vampiric_touch_hit, timeline.shadowfiend_hit, timeline.void_eruption_hit,
+                timeline.void_bolt_hit, timeline.devouring_plague_dd_hit, timeline.devouring_plague_dot_hit,
+                timeline.sw_pain_dd_hit, timeline.sw_pain_dot_hit, timeline.mind_blast_hit, timeline.mind_flay_hit,
+                timeline.sw_death_hit])
+
+
+def attack():
+    if timeline.now + vampiric_touch.cast_time >= timeline.vampiric_touch_end:
+        mob_hp =
+
+# def kill_one(ftimeline, finsanity):
+#     mob_hp = int(random.randrange(mob_min_hp, mob_max_hp+1))
+#     while mob_hp > 0:
+#         now = next_time_stop()
+#         mob_hp = attack(mob_hp)
+
+
 intellect = 350
 crit_rating = 155
 haste_rating = 174
@@ -75,8 +96,13 @@ pain_dd = Spells(0.154, 0, 0, 0, 0)
 mind_blast = Spells(0.98, 1.5, 7.5, 8, 0)
 sw_death = Spells(0.9, 0, 20, 0, 0)
 
+vampiric_touch = Dots(1.55, 21, 3, 1.5, 0, 5)
+
 timeline = Timeline
 insanity = 0
+
+mob_min_hp = 3000
+mob_max_hp = 5000
 
 print(timeline.shadowfiend_end)
 print(mind_blast.cast_time)
@@ -85,3 +111,4 @@ print(f'Crit chance: {crit_chance}')
 print(f'Mastery %: {mastery_percent}')
 print(f'Versatility %: {versatility_percent}')
 
+print(next_time_stop())
