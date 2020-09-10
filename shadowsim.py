@@ -3,29 +3,35 @@ class Spells:
     def __init__(self, sp_weight, cast_time, cooldown, insanity_gen, insanity_cost):
         self.spell_damage = sp_weight*intellect
         self.cast_time = cast_time/(1+haste_percent)
+        # Does haste effect cooldowns?
         self.cooldown = cooldown
         self.insanity_gen_on_cast = insanity_gen
         self.insanity_cost = insanity_cost
 
 
 class Dots:
-    """Stats for channeled and damage-over-time spells"""
-    def __init__(self, sp_weight, dot_duration, hit_interval, cast_time, cooldown, insanity_gen_on_cast,
-                 insanity_gen_per_hit,
-                 insanity_cost):
-        self.spell_damage = sp_weight*intellect
+    """Stats for damage-over-time spells"""
+    def __init__(self, sp_weight, dot_duration, hit_interval, cast_time, cooldown, insanity_gen_on_cast):
+        self.spell_damage = sp_weight*intellect*(1+haste_percent)
         self.dot_duration = dot_duration
         self.dot_hit_interval = hit_interval / (1+haste_percent)
         self.cast_time = cast_time/(1+haste_percent)
         # Check to see if cooldowns change with haste
         self.cooldown = cooldown
         self.insanity_gen_on_cast = insanity_gen_on_cast
-        # How is insanity split when extra hits are added? Probably only matters with void torrent. Mind flay just
-        # shortens the cast time.
-        # self.insanity_gen_per_hit =
+
+
+class Channeled:
+    """Stats for channeled spells"""
+    def __init__(self, sp_weight, dot_duration, hit_interval, insanity_gen):
+        self.spell_damage = sp_weight*intellect
+        self.dot_duration = dot_duration
+        self.hit_interval = hit_interval / (1+haste_percent)
+        self.insanity_gen_per_hit = insanity_gen / self.hit_interval
 
 
 class Timeline:
+    now = 0
     vampiric_touch_hit = float('inf')
     vampiric_touch_end = 0
     shadowfiend_hit = float('inf')
@@ -35,8 +41,20 @@ class Timeline:
     void_eruption_off_cd = 0
     void_bolt_hit = float('inf')
     void_bolt_off_cd = 0
-    devouring_plague_hit = float('inf')
-    devouring_plague
+    devouring_plague_dd_hit = float('inf')
+    devouring_plague_dot_hit = float('inf')
+    devouring_plague_end = 0
+    sw_pain_dd_hit = float('inf')
+    sw_pain_dot_hit = float('inf')
+    sw_pain_end = 0
+    mind_blast_hit = 0
+    mind_blast_off_cd = 0
+    mind_flay_hit = float('inf')
+    mind_flay_end = 0
+    sw_death_hit = float('inf')
+    sw_death_off_cd = 0
+    vampiric_embrace_end = 0
+    vampiric_embrace_off_cd = 0
 
 
 intellect = 350
@@ -57,6 +75,10 @@ pain_dd = Spells(0.154, 0, 0, 0, 0)
 mind_blast = Spells(0.98, 1.5, 7.5, 8, 0)
 sw_death = Spells(0.9, 0, 20, 0, 0)
 
+timeline = Timeline
+insanity = 0
+
+print(timeline.shadowfiend_end)
 print(mind_blast.cast_time)
 print(f'Haste %: {haste_percent}')
 print(f'Crit chance: {crit_chance}')
