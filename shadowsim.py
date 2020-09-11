@@ -1,6 +1,7 @@
 import random
 import math
 
+
 class Spells:
     """Stats for direct damage spells"""
     def __init__(self, sp_weight, cast_time, cooldown, insanity_gen, insanity_cost):
@@ -60,6 +61,11 @@ class Timeline:
     vampiric_embrace_off_cd = 0
 
 
+def vampiric_touch_attack(finsanity, ftimeline):
+    finsanity += vampiric_touch.
+
+
+
 def next_time_stop():
     return min([timeline.vampiric_touch_hit, timeline.shadowfiend_hit, timeline.void_eruption_hit,
                 timeline.void_bolt_hit, timeline.devouring_plague_dd_hit, timeline.devouring_plague_dot_hit,
@@ -67,9 +73,9 @@ def next_time_stop():
                 timeline.sw_death_hit])
 
 
-def attack():
-    if timeline.now + vampiric_touch.cast_time >= timeline.vampiric_touch_end:
-        mob_hp =
+def attack(fmob_hp, finsanity, ftimeline):
+    if ftimeline.now + vampiric_touch.cast_time >= ftimeline.vampiric_touch_end:
+        finsanity, ftimeline = vampiric_touch_attack(finsanity, ftimeline)
 
 # def kill_one(ftimeline, finsanity):
 #     mob_hp = int(random.randrange(mob_min_hp, mob_max_hp+1))
